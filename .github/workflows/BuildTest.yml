@@ -10,7 +10,7 @@ on:
     branches:
       - developer
 jobs:
-  Run_workspace_Tests:
+  Run:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
@@ -19,6 +19,6 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode_12.2.app && /usr/bin/xcodebuild -version
     - name: re-pod
-      run: cd ios && pod deintegrate && pod install
+      run: pod install
     - name: fastlane build
       run: fastlane ios adhoc build
