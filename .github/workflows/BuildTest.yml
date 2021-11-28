@@ -19,6 +19,6 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode_12.2.app && /usr/bin/xcodebuild -version
     - name: re-pod
-      run: cd ios && pod deintegrate && pod install && cd ..
+      run: cd ios && pod deintegrate && pod install
     - name: fastlane build
       run: fastlane ios adhoc build
