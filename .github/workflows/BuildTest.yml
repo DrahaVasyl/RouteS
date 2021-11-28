@@ -20,7 +20,13 @@ jobs:
       run: sudo xcode-select -switch /Applications/Xcode_12.2.app && /usr/bin/xcodebuild -version
     - name: re-pod
       run: pod install
-    - name: Build and test
+    - name: Build app
       run: |
-          xcodebuild clean test -project Routes.xcodeproj -scheme Routes -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
-          bash <(curl -s https://codecov.io/bash)
+          cd ios && xcodebuild archive \
+            -workspace Routes.xcworkspace \
+            -scheme Routes \
+            -sdk iphoneos14.2 \
+            -configuration Release \
+            -archivePath $PWD/build/Routes.xcarchive \
+            IPHONEOS_DEPLOYMENT_TARGET=9.0
+            PROVISIONING_PROFILE="39de84cb-64e2-49fe-9028-461dea17ab3f"
