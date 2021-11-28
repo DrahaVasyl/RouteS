@@ -20,5 +20,7 @@ jobs:
       run: sudo xcode-select -switch /Applications/Xcode_12.2.app && /usr/bin/xcodebuild -version
     - name: re-pod
       run: pod install
-    - name: fastlane build
-      run: fastlane ios adhoc build
+    - name: Build and test
+      run: |
+          xcodebuild clean test -project Routes.xcodeproj -scheme Routes -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+          bash <(curl -s https://codecov.io/bash)
