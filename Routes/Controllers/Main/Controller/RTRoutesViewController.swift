@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import Firebase
 
 class RTRoutesViewController: UIViewController {
 
@@ -95,6 +96,7 @@ extension RTRoutesViewController {
 
 extension RTRoutesViewController: RTRouteTableViewManagerDelegate {
     func onItemSelected(id: String, manager: RTRouteTableViewManager) {
+        FirebaseAnalytics.Analytics.logEvent("route_selected", parameters: ["id": id])
         router.perform(.route(id: id), from: self)
     }
 }

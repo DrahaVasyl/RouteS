@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 protocol RTRateRouteViewControllerDelegate: AnyObject {
     func onCloseButtonClick(controller: RTRateRouteViewController)
@@ -235,11 +236,25 @@ Congrats! You’ve finished route "\(viewModel.name)", how would you rate it?
     // MARK: - Actions
     
     @objc private func onCloseButton() {
+        FirebaseAnalytics.Analytics.logEvent(
+            "skipped_route_rating",
+            parameters: [
+                "route": viewModel.id,
+            ]
+        )
         delegate?.onCloseButtonClick(controller: self)
     }
     
     @objc private func onApplyButton() {
-        viewModel.rate(Int(slider.value))
+        let rate = Int(slider.value)
+        FirebaseAnalytics.Analytics.logEvent(
+            "applied_route_rating",
+            parameters: [
+                "route": viewModel.id,
+                "rate": rate
+            ]
+        )
+        viewModel.rate(rate)
         delegate?.onCloseButtonClick(controller: self)
     }
     
@@ -290,6 +305,13 @@ extension RTRateRouteViewController: RTRatingSliderDelegate {
     func valueWasChanged(slider: RTRatingSlider) {
         let value = correctValue(from: slider.value)
         slider.value = Float(value)
+        FirebaseAnalytics.Analytics.logEvent(
+            "moved_slider",
+            parameters: [
+                "route": viewModel.id,
+                "to": value
+            ]
+        )
         updateVisibleRatingText(rate: value)
         if value > 0 {
             activateApplyButton()

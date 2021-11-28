@@ -12,6 +12,7 @@ import RxSwift
 import CoreLocation
 import MapKit
 import Polyline
+import Firebase
 
 class RTRouteMapViewController: UIViewController {
     
@@ -175,11 +176,30 @@ class RTRouteMapViewController: UIViewController {
                 if let lastInactiveMarker = self.markers.last(where: {!$0.type.isActive}) {
                     to = firstActiveMarker.position
                     from = lastInactiveMarker.position
+                    
+                    FirebaseAnalytics.Analytics.logEvent(
+                        "start_route_clicked",
+                        parameters: [
+                            "from": lastInactiveMarker.id,
+                            "to": firstActiveMarker.id,
+                            "route": viewModel.id
+                        ]
+                    )
+                    
                 } else {
                     to = firstActiveMarker.position
                     from = self.mapView.myLocation?.coordinate
+                    
+                    FirebaseAnalytics.Analytics.logEvent(
+                        "start_route_clicked",
+                        parameters: [
+                            "from": "user_location",
+                            "to": firstActiveMarker.id,
+                            "route": viewModel.id
+                        ]
+                    )
                 }
-                
+
                 if let firstCoordinate = from,
                    let secondCoordinate = to {
                     
@@ -192,16 +212,31 @@ class RTRouteMapViewController: UIViewController {
         case .arrived:
             routes.forEach({$0.map = nil})
             routes.removeAll()
+            
+            let hasMoreMarkers = markers.contains(where: {$0.type.isActive})
             if let marker = markers.first(where: {$0.type.isActive}) {
                 marker.type = .inactive
                 showBoundBox([marker.position])
             }
-            if markers.contains(where: {$0.type.isActive}) {
+            FirebaseAnalytics.Analytics.logEvent(
+                "arrived_route_clicked",
+                parameters: [
+                    "has_more_markers": hasMoreMarkers,
+                    "route": viewModel.id
+                ]
+            )
+            if hasMoreMarkers {
                 updateActionButton(to: .start)
             } else {
                 updateActionButton(to: .finish)
             }
         case .finish:
+            FirebaseAnalytics.Analytics.logEvent(
+                "finished_route_clicked",
+                parameters: [
+                    "route": viewModel.id
+                ]
+            )
             router.perform(.rate(id: viewModel.id), from: self, completion: nil)
         }
     }
@@ -377,6 +412,12 @@ extension RTRouteMapViewController {
     
     private func show(polylines: [GMSPolyline]) {
         routes = polylines
+        FirebaseAnalytics.Analytics.logEvent(
+            "showing_\(polylines.count)_routes",
+            parameters: [
+                "route": viewModel.id
+            ]
+        )
         polylines.forEach { polyline in
             polyline.strokeWidth = 2
             polyline.map = mapView
@@ -389,6 +430,13 @@ extension RTRouteMapViewController {
 extension RTRouteMapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let value = marker as? RTMarker {
+            FirebaseAnalytics.Analytics.logEvent(
+                "showed_info_about_place",
+                parameters: [
+                    "route": viewModel.id,
+                    "place_id": value.id
+                ]
+            )
             router.perform(.placeInfo(id: value.id, shouldShowActions: markers.contains(where: {$0.type.isActive})), from: self, completion: nil)
         }
         return true
@@ -414,13 +462,29 @@ extension RTRouteMapViewController: RTPlaceInfoViewControllerDelegate {
                 markers[i].type = .inactive
             }
         }
-        if !markers.contains(where: {$0.type.isActive}) {
+        let hasMoreMarkers = markers.contains(where: {$0.type.isActive})
+        FirebaseAnalytics.Analytics.logEvent(
+            "skipped_place",
+            parameters: [
+                "route": viewModel.id,
+                "place_id": id,
+                "has_more_markers": hasMoreMarkers
+            ]
+        )
+        if !hasMoreMarkers {
             updateActionButton(to: .finish)
         }
     }
     
     func onNavigateButton(id: String, controller: RTPlaceInfoViewController) {
         controller.closeCurrentViewController()
+        FirebaseAnalytics.Analytics.logEvent(
+            "navigated_to_place",
+            parameters: [
+                "route": viewModel.id,
+                "place_id": id,
+            ]
+        )
         if let index = markers.firstIndex(where: {$0.id == id}) {
             for i in 0..<index {
                 markers[i].type = .inactive
