@@ -24,7 +24,7 @@ class RTRoutesViewModel {
     // MARK: - Properties
     
     private let disposeBag = DisposeBag()
-    private let firebaseManager = RTRoutesfirebaseManager()
+    private let firebaseManager = RTRoutesFirebaseManager()
     let data = BehaviorRelay<Data?>(value: nil)
     
     // MARK: - Initialization

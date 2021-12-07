@@ -11,7 +11,7 @@ class RTRateRouteViewModel {
     
     // MARK: - Properties
     
-    private let firebaseManager = RTRoutesfirebaseManager()
+    private let firebaseManager = RTRoutesFirebaseManager()
     private let route: DBRoute
     let id: String
     var name: String {

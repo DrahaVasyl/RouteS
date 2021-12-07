@@ -52,7 +52,7 @@ class RTRouteMapViewModel {
     let data = BehaviorRelay<Data?>(value: nil)
     var currentPlace: CLPlacemark?
     var routeName: String {
-        return id
+        return route.name
     }
     
     // MARK: - Initialization

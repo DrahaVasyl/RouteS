@@ -44,7 +44,7 @@
 		04B009B326F48319002AD89F /* Result+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B009B226F48319002AD89F /* Result+extension.swift */; };
 		04B009B526F62B22002AD89F /* CLLocationCoordinate2D+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B009B426F62B22002AD89F /* CLLocationCoordinate2D+extension.swift */; };
 		04DB126227524BED00BD9130 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04DB126127524BED00BD9130 /* GoogleService-Info.plist */; };
-		04DB12662752939E00BD9130 /* RTRoutesfirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB12652752939E00BD9130 /* RTRoutesfirebaseManager.swift */; };
+		04DB12662752939E00BD9130 /* RTRoutesFirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB12652752939E00BD9130 /* RTRoutesFirebaseManager.swift */; };
 		04F2F2D02724287000A8BB06 /* RTPlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F2F2CF2724287000A8BB06 /* RTPlaceInfoViewModel.swift */; };
 		04F2F2D5272444D700A8BB06 /* RTRateRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F2F2D4272444D700A8BB06 /* RTRateRouteViewController.swift */; };
 		04F2F2DB2724467300A8BB06 /* RTSliderThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F2F2DA2724467300A8BB06 /* RTSliderThumbView.swift */; };
@@ -93,7 +93,7 @@
 		04B009B226F48319002AD89F /* Result+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+extension.swift"; sourceTree = "<group>"; };
 		04B009B426F62B22002AD89F /* CLLocationCoordinate2D+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+extension.swift"; sourceTree = "<group>"; };
 		04DB126127524BED00BD9130 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		04DB12652752939E00BD9130 /* RTRoutesfirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTRoutesfirebaseManager.swift; sourceTree = "<group>"; };
+		04DB12652752939E00BD9130 /* RTRoutesFirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTRoutesFirebaseManager.swift; sourceTree = "<group>"; };
 		04F2F2CF2724287000A8BB06 /* RTPlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTPlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		04F2F2D4272444D700A8BB06 /* RTRateRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTRateRouteViewController.swift; sourceTree = "<group>"; };
 		04F2F2DA2724467300A8BB06 /* RTSliderThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTSliderThumbView.swift; sourceTree = "<group>"; };
@@ -182,6 +182,25 @@
 			path = "Text Table View Cell";
 			sourceTree = "<group>";
 		};
+		0447C46E275B97490095A964 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0422B77926FC6BC600B71D17 /* Animations */,
+				04B0097426F1E875002AD89F /* Controllers */,
+				0422B78F26FCE4E700B71D17 /* Views */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0447C46F275B97C80095A964 /* BL */ = {
+			isa = PBXGroup;
+			children = (
+				04B0099D26F47A3D002AD89F /* Database */,
+				04DB12642752938800BD9130 /* Managers */,
+			);
+			path = BL;
+			sourceTree = "<group>";
+		};
 		046A3489272ECD1800BD5C49 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,13 +238,10 @@
 		04B0095E26F1E7F9002AD89F /* Routes */ = {
 			isa = PBXGroup;
 			children = (
-				0422B78F26FCE4E700B71D17 /* Views */,
-				0422B77926FC6BC600B71D17 /* Animations */,
-				04B009AB26F481A4002AD89F /* Models */,
-				04B0099D26F47A3D002AD89F /* Database */,
 				04B0097A26F1E8E5002AD89F /* Extensions */,
-				04DB12642752938800BD9130 /* Managers */,
-				04B0097426F1E875002AD89F /* Controllers */,
+				04B009AB26F481A4002AD89F /* Models */,
+				0447C46E275B97490095A964 /* View */,
+				0447C46F275B97C80095A964 /* BL */,
 				04B0095F26F1E7F9002AD89F /* AppDelegate.swift */,
 				04B0096126F1E7F9002AD89F /* SceneDelegate.swift */,
 				04B0098626F1EE6F002AD89F /* GlobalConstants.swift */,
@@ -401,7 +417,7 @@
 		04DB12642752938800BD9130 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				04DB12652752939E00BD9130 /* RTRoutesfirebaseManager.swift */,
+				04DB12652752939E00BD9130 /* RTRoutesFirebaseManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -639,7 +655,7 @@
 				04F2F2DB2724467300A8BB06 /* RTSliderThumbView.swift in Sources */,
 				0422B78126FC70B700B71D17 /* RTRouteMapRouter.swift in Sources */,
 				04F2F2D5272444D700A8BB06 /* RTRateRouteViewController.swift in Sources */,
-				04DB12662752939E00BD9130 /* RTRoutesfirebaseManager.swift in Sources */,
+				04DB12662752939E00BD9130 /* RTRoutesFirebaseManager.swift in Sources */,
 				04B009A426F47C8A002AD89F /* Database.swift in Sources */,
 				04F2F2DD272446B900A8BB06 /* RTRatingSlider.swift in Sources */,
 				04B009B126F481EE002AD89F /* Route.swift in Sources */,
