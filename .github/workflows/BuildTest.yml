@@ -5,12 +5,12 @@ on:
 
   push:
     branches:
-      - main
+      - developer
   pull_request:
     branches:
-      - main
+      - developer
 jobs:
-  Run_workspace_Tests:
+  Run:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
@@ -18,5 +18,15 @@ jobs:
       run: ls /Applications | grep Xcode
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode_12.2.app && /usr/bin/xcodebuild -version
-    - name: Run unit tests
-      run: xcodebuild test -scheme Routes -workspace Routes.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 12,OS=15' | xcpretty && exit ${PIPESTATUS[0]}
+    - name: re-pod
+      run: pod install
+    - name: Build app
+      run: |
+          cd ios && xcodebuild archive \
+            -workspace Routes.xcworkspace \
+            -scheme Routes \
+            -sdk iphoneos14.2 \
+            -configuration Release \
+            -archivePath $PWD/build/Routes.xcarchive \
+            IPHONEOS_DEPLOYMENT_TARGET=9.0
+            PROVISIONING_PROFILE="39de84cb-64e2-49fe-9028-461dea17ab3f"
